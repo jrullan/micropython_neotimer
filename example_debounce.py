@@ -1,7 +1,6 @@
-import gc
+from machine import Pin
 import picoexplorer as explorer
-
-print("Free memory before Pimoroni explorer initialization",gc.mem_free())
+from neotimer import *
 
 # Pico Explorer Initialization
 width = explorer.get_width()
@@ -10,15 +9,23 @@ display_buffer = bytearray(width * height * 2)  # 2-bytes per pixel (RGB565)
 explorer.init(display_buffer)
 
 presses = 0
+led_pin = Pin(25,Pin.OUT)
 
-mem1 = gc.mem_free()
-print("Free memory before Neotimer initialization",mem1)
-from neotimer import *
 myTimer = Neotimer(250)
-mem2 = gc.mem_free()
-print("Neotimer memory footprint",mem1-mem2)
+blinker = Neotimer(200)
 
 while True:
     if myTimer.debounce_signal(explorer.is_pressed(explorer.BUTTON_X)):
         presses += 1
-        print(presses)
+        if blinker.duration < 1000:
+            blinker.duration += 50
+        print(presses, blinker.duration)
+
+    if myTimer.debounce_signal(explorer.is_pressed(explorer.BUTTON_Y)):
+        presses += 1
+        if blinker.duration >= 100:
+            blinker.duration -= 50
+        print(presses, blinker.duration)
+
+    if blinker.repeat_execution():
+        led_pin.toggle()

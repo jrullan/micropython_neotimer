@@ -1,6 +1,9 @@
 ##########################################################################
 # Raspberry Pi Pico - Non Blocking Timer (Neotimer)
 #
+# Library footprint: approx 3kB
+# Instance footprint: 64-112 bytes
+#
 # This program shows how to implement a non-blocking delay function
 # to use in your program. It is based on the neotimer library I developed
 # for Arduino and Propeller 2 in Spin 2.
@@ -51,13 +54,14 @@
 # Author: Jose Rullan
 # Date: January 24, 2022
 ##########################################################################
-import time
+#import time
+from time import ticks_ms
 
 # Neotimer Class
 class Neotimer:
     def __init__(self,duration):
         self.duration = duration
-        self.last = time.ticks_ms()
+        self.last = ticks_ms()
         self.started = False
         self.waiting = False
         self.done = False
@@ -77,7 +81,7 @@ class Neotimer:
     # Resets the timer
     def reset(self):
         self.stop()
-        self.last = time.ticks_ms()
+        self.last = ticks_ms()
         self.done = False
         
     # Restarts the timer
@@ -100,7 +104,7 @@ class Neotimer:
     
     # Returns elapsed time
     def get_elapsed(self):
-        return (time.ticks_ms() - self.last)
+        return (ticks_ms() - self.last)
         
     # Debounces a signal with duration
     def debounce_signal(self,signal):
@@ -121,14 +125,14 @@ class Neotimer:
         if not self.started:
             self.started = True
             self.waiting = True
-            self.last = time.ticks_ms()
+            self.last = ticks_ms()
         
         return False
     
     # Working example
     def old_time_ellapsed(self):
-        if time.ticks_ms()-self.time_ellapsed_last_ms >= self.duration:
-            self.time_ellapsed_last_ms = time.ticks_ms()
+        if ticks_ms()-self.time_ellapsed_last_ms >= self.duration:
+            self.time_ellapsed_last_ms = ticks_ms()
             return True
         else:
             return False
