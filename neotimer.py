@@ -128,12 +128,4 @@ class Neotimer:
             self.last = ticks_ms()
         
         return False
-    
-    # Working example
-    def old_time_ellapsed(self):
-        if ticks_ms()-self.time_ellapsed_last_ms >= self.duration:
-            self.time_ellapsed_last_ms = ticks_ms()
-            return True
-        else:
-            return False
 
