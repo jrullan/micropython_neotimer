@@ -8,7 +8,6 @@
 # to use in your program. It is based on the neotimer library I developed
 # for Arduino and Propeller 2 in Spin 2.
 #
-#
 #   When you use a time.sleep() function in a program,
 #   the processor stops everything it is doing until this delay is completed.
 #   That is called a blocking delay, because it blocks the processor until it finishes.
