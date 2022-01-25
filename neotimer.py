@@ -109,7 +109,7 @@ class Neotimer:
     def debounce_signal(self,signal):
         if not self.started:
             self.start()
-        if self.finished() and signal:
+        if signal and self.finished():
             self.start()
             return True
         else:
@@ -127,4 +127,3 @@ class Neotimer:
             self.last = ticks_ms()
         
         return False
-
