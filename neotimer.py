@@ -149,18 +149,15 @@ class Neotimer:
         if count != -1:
             if self.repetitions == -1:   #<---- Initial state is -1
                 self.repetitions = count
-            
             if self.repetitions == 0:    #<---- When finished return False
                 return False
-            
             if self.repeat_execution():  #<---- Otherwise call repeat_execution()
                 self.repetitions -= 1
                 return True
             else:
                 return False
-        
         else:
-            return self.repeat_execution()
+            return self.repeat_execution() #<---- if repetitions is -1, just call repeat_execution()
 
     # Resets repetitions
     def reset_repetitions(self):
