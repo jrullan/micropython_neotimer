@@ -49,7 +49,24 @@
 #                   led_pin.toggle() <---------------- Called every 500ms
 #
 # 
-#         C) Debouncer for signals - You can debounce a signal using debouce_signal.
+#         C) Periodic trigger with count - The following example will toggle pin 56 every 500ms,
+#            only 3 times. To reset the repetitions use reset_repetitions().
+#            ------------------------------------------------------------------------------------
+# 
+#             led_pin = Pin(25,Pin.OUT)
+#             button = Pin(2, Pin.IN)
+#
+#             myTimer = Neotimer(500)<---------------- Initializes a 500ms timer
+#
+#             while True:
+#                 if(myTimer.repeat_execution(3)) <--- Only repeat 3 times
+#                   led_pin.toggle() <---------------- Called every 500ms
+#
+#                 if(button.value())
+#                   myTimer.reset_repetitions() <----- Reset repetitions
+#
+# 
+#         D) Debouncer for signals - You can debounce a signal using debouce_signal.
 #            The debouncing period will be duration.
 #            ------------------------------------------------------------------------------------
 #            In this example, the button pin value signal will
@@ -65,6 +82,32 @@
 #                     print(presses)
 # 
 #
+#         E) Waiting - The following example will turn on the led for 1000ms each time the button is pressed
+#            ------------------------------------------------------------------------------------
+# 
+#             from machine import Pin
+#             from neotimer import *
+#
+#             button = Pin(2, Pin.IN)
+#             led = Pin(25,Pin.OUT)
+#             led.off()
+# 
+#             myTimer = Neotimer(1000)
+#             debouncer = Neotimer(200)
+# 
+#             while True:
+# 
+#                 if debouncer.debounce_signal(button.value()):
+#                     myTimer.start()
+#
+#                 if myTimer.waiting():
+#                     led.on()
+#                 else:
+#                     led.off()
+# 
+#
+#
+#
 # Author: Jose Rullan
 # Date: January 24, 2022
 ##########################################################################
@@ -77,7 +120,6 @@ class Neotimer:
         self.duration = duration
         self.last = ticks_ms()
         self.started = False
-        self.waiting = False
         self.done = False
         self.repetitions = -1 #Unlimited
     
@@ -85,12 +127,10 @@ class Neotimer:
     def start(self):
         self.reset()
         self.started = True
-        self.waiting = True
     
     # Stops the timer
     def stop(self):
         self.started = False
-        self.waiting = False
         return self.get_elapsed()
         
     # Resets the timer
@@ -103,7 +143,6 @@ class Neotimer:
     def restart(self):
         if not self.done:
             self.started = True
-            self.waiting = True
             
     # Returns True if the timer has finished
     def finished(self):
@@ -112,7 +151,6 @@ class Neotimer:
         
         if self.get_elapsed() >= self.duration:
             self.done = True
-            self.waiting = False
             return True
         else:
             return False
@@ -139,7 +177,6 @@ class Neotimer:
         
         if not self.started:
             self.started = True
-            self.waiting = True
             self.last = ticks_ms()
         
         return False
@@ -162,3 +199,10 @@ class Neotimer:
     # Resets repetitions
     def reset_repetitions(self):
         self.repetitions = -1
+        
+    # Returns True for the duration of the timer
+    def waiting(self):
+        if self.started and not self.finished():
+            return True
+        else:
+            return False
