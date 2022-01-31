@@ -6,6 +6,8 @@ led.off()
 
 myTimer = Neotimer(1000)
 
+myTimer.start()
+
 while myTimer.waiting():
     led.on()
 
