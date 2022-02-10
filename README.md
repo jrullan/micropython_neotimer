@@ -27,14 +27,14 @@ You can use the timer in the following ways:
 You can start, stop and restart the timer. Once started it will count towards the initialization
 time. You can check if it finished counting by calling `finished()`. 
 
-* `start()`   will reset the time (counting time) and set started and waiting true.
+* `start()`   will start the timer.
 
-* `stop()`    will set started and waiting false.
-It will also return the elapsed milliseconds since it was started
+* `stop()`   will stop the timer.
+It will also return the elapsed milliseconds since it was started.
 
 * `finished()`   will return True if the timer reached the initialization time.
 
-* `restart()` will set the timer to started and waiting but will not reset the time.
+* `restart()` will restart the timer.
 
  ```python
 myTimer = Neotimer(200) #<-------- Initializes a 200ms timer
@@ -47,7 +47,7 @@ if note_timer.finished():
     led.off()  #<--------- Called after 200ms
 ```
 
-### B) Periodic trigger
+### B) Periodic trigger (`repeat_execution()`)
 
 The timer can be used to periodically trigger the execution of a block of code. The following example will toggle pin 56 every 500ms
 
@@ -60,7 +60,7 @@ while True:
         led_pin.toggle()  #<---------------- Called every 500ms
 ```
 
-### C) Periodic trigger with count
+### C) Periodic trigger with count (`repeat_execution(count)`)
 
 You can also trigger the execution of some code a specific amount of times. The following example will toggle pin 56 every 500ms, only 3 times. 
 After 3 times, the timer will not repeat the code until a reset is issued. To reset the repetitions use `reset_repetitions()`.
@@ -109,7 +109,7 @@ led = Pin(25,Pin.OUT)
 led.off()
 
 # Two timers, one for debouncing the button signal
-# and the other for generating a pulse with waiting
+# and the other for generating a pulse using waiting()
 debouncer = Neotimer(200)
 pulse = Neotimer(1000)
  
