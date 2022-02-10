@@ -34,46 +34,45 @@ It will also return the elapsed milliseconds since it was started
 restart() will set the timer to started and waiting but will not reset the time.
 
  ```python
-            note_timer = Neotimer(200) #<-------- Initializes a 200ms timer
+myTimer = Neotimer(200) #<-------- Initializes a 200ms timer
 
-            if collision_detected:
-                note_timer.start()     #<--------- Starts timer
-                explorer.set_tone(beep_tone)
-            if note_timer.finished():
-                explorer.set_tone(-1)  #<--------- Called after 200ms
+if collision_detected:
+    myTimer.start()     #<--------- Starts timer
+    led.on()
+    
+if note_timer.finished():
+    led.off()  #<--------- Called after 200ms
 ```
 
-### B) Periodic trigger - 
+### B) Periodic trigger
 
-The following example will toggle pin 56 every 500ms
+The timer can be used to periodically trigger the execution of a block of code. The following example will toggle pin 56 every 500ms
 
 ```python
-            led_pin = Pin(25,Pin.OUT)
-            myTimer = Neotimer(500)<---------------- Initializes a 500ms timer
+led_pin = Pin(25,Pin.OUT)
+myTimer = Neotimer(500)   #<---------------- Initializes a 500ms timer
 
-            while True:
-                if(myTimer.repeat_execution())
-                  led_pin.toggle() <---------------- Called every 500ms
+while True:
+    if(myTimer.repeat_execution()):
+        led_pin.toggle()  #<---------------- Called every 500ms
 ```
 
-### C) Periodic trigger with count - 
+### C) Periodic trigger with count
 
-The following example will toggle pin 56 every 500ms, only 3 times. 
-
-To reset the repetitions use reset_repetitions().
+You can also trigger the execution of some code a specific amount of times. The following example will toggle pin 56 every 500ms, only 3 times. 
+After 3 times, the timer will not repeat the code until a reset is issued. To reset the repetitions use reset_repetitions().
 
 ```python
-            led_pin = Pin(25,Pin.OUT)
-            button = Pin(2, Pin.IN)
+led_pin = Pin(25,Pin.OUT)
+button = Pin(2, Pin.IN)
 
-            myTimer = Neotimer(500)<---------------- Initializes a 500ms timer
+myTimer = Neotimer(500)   #<---------------- Initializes a 500ms timer
             
-            while True:
-                if(myTimer.repeat_execution(3)) <--- Only repeat 3 times
-                  led_pin.toggle() <---------------- Called every 500ms
-                if(button.value())
-                  myTimer.reset_repetitions() <----- Reset repetitions
-
+while True:
+    if(myTimer.repeat_execution(3)): #<--- Only repeat 3 times
+        led_pin.toggle()  #<---------------- Called every 500ms
+    if(button.value()):
+        myTimer.reset_repetitions() #<--- Reset repetitions
 ```
 
 ### D) Debouncer for signals
@@ -84,40 +83,41 @@ The debouncing period will be duration.
 In this example, the button pin value signal will
 be debounced for 250 milliseconds:
 ```python
-            button = Pin(2, Pin.IN)
-            presses = 0
-            myTimer = Neotimer(250) <--------------- Initializes a 250ms timer
+button = Pin(2, Pin.IN)
+presses = 0
+myTimer = Neotimer(250) #<--------------- Initializes a 250ms timer
 
-            while True:
-                if myTimer.debounce_signal(button.value()): <----- button pressed signal debounced for 250ms
-                   presses += 1
-                   print(presses)
+while True:
+    if myTimer.debounce_signal(button.value()): #<----- button pressed signal debounced for 250ms
+        presses += 1
+        print(presses)
 ```
 
-### E) Waiting - 
+### E) Waiting
 
 The following example will turn on the led for 1000ms each time the button is pressed
 
 ```python
-            from machine import Pin
-            from neotimer import *
+from machine import Pin
+from neotimer import *
 
-            button = Pin(2, Pin.IN)
-            led = Pin(25,Pin.OUT)
-            led.off()
+button = Pin(2, Pin.IN)
+led = Pin(25,Pin.OUT)
+led.off()
 
-            myTimer = Neotimer(1000)
-            debouncer = Neotimer(200)
+# Two timers, one for debouncing the button signal
+# and the other for generating a pulse with waiting
+debouncer = Neotimer(200)
+pulse = Neotimer(1000)
  
-            while True:
- 
-                if debouncer.debounce_signal(button.value()):
-                    myTimer.start()
-
-                if myTimer.waiting():
-                    led.on()
-                else:
-                    led.off()
+while True:
+    if debouncer.debounce_signal(button.value()):
+        pulse.start()
+        
+    if pulse.waiting():  #<---- Led on during pulse time
+        led.on()
+    else:
+        led.off()
 ``` 
 
 Author: Jose Rullan
