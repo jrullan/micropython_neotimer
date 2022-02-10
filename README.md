@@ -59,7 +59,7 @@ if collision_detected:
     myTimer.start()     #<--------- Starts timer
     led.on()
     
-if note_timer.finished():
+if myTimer.finished():
     led.off()  #<--------- Called after 200ms
 ```
 
