@@ -65,7 +65,7 @@ if myTimer.finished():
 
 ### B) Periodic trigger (`repeat_execution()`)
 
-The timer can be used to periodically trigger the execution of a block of code. The following example will toggle pin 56 every 500ms
+The timer can be used to periodically trigger the execution of a block of code. The following example will toggle pin 25 every 500ms
 
 ```python
 led_pin = Pin(25,Pin.OUT)
