@@ -112,7 +112,7 @@
 # Date: January 24, 2022
 ##########################################################################
 #import time
-from time import ticks_ms
+from time import ticks_ms, ticks_diff
 
 # Neotimer Class
 class Neotimer:
@@ -157,7 +157,7 @@ class Neotimer:
     
     # Returns elapsed time
     def get_elapsed(self):
-        return (ticks_ms() - self.last)
+        return ticks_diff(ticks_ms(),self.last)
         
     # Debounces a signal with duration
     def debounce_signal(self,signal):
