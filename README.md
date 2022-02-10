@@ -16,11 +16,10 @@
     limitations under the License.
 
 Library footprint: approx 3kB
-Instance footprint: 64-112 bytes
 
 This library implements a non-blocking delay function
-to use in your program. It is based on the neotimer library I developed
-for Arduino and Propeller 2 in Spin 2.
+to use in your program. Originally developed by me 
+for Arduino and Parallax Propeller 2.
 
 
 ## Why use Neotimer?
