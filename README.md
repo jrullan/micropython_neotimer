@@ -3,16 +3,19 @@
 Library footprint: approx 3kB
 Instance footprint: 64-112 bytes
 
-This program shows how to implement a non-blocking delay function
+This library implements a non-blocking delay function
 to use in your program. It is based on the neotimer library I developed
 for Arduino and Propeller 2 in Spin 2.
+
+
+## Explanation
 
 When you use a time.sleep() function in a program,
 the processor stops everything it is doing until this delay is completed.
 That is called a blocking delay, because it blocks the processor until it finishes.
  
 There are many times when we don't want this to happen.
-This timer provides a way to use time delays without
+This library provides a way to use time delays without
 blocking the processor, so it can do other things while the timer ends up.
 This is called a non-blocking delay timer.
  
