@@ -24,14 +24,17 @@ You can use the timer in the following ways:
  
 ### A) Start-Stop-Restart Timer - 
 
-You can start, stop and restart the timer until done.
+You can start, stop and restart the timer. Once started it will count towards the initialization
+time. You can check if it finished counting by calling `finished()`. 
 
-start()   will reset the time (counting time) and set started and waiting true.
+* `start()`   will reset the time (counting time) and set started and waiting true.
 
-stop()    will set started and waiting false.
+* `stop()`    will set started and waiting false.
 It will also return the elapsed milliseconds since it was started
 
-restart() will set the timer to started and waiting but will not reset the time.
+* `finished()`   will return True if the timer reached the initialization time.
+
+* `restart()` will set the timer to started and waiting but will not reset the time.
 
  ```python
 myTimer = Neotimer(200) #<-------- Initializes a 200ms timer
@@ -60,7 +63,7 @@ while True:
 ### C) Periodic trigger with count
 
 You can also trigger the execution of some code a specific amount of times. The following example will toggle pin 56 every 500ms, only 3 times. 
-After 3 times, the timer will not repeat the code until a reset is issued. To reset the repetitions use reset_repetitions().
+After 3 times, the timer will not repeat the code until a reset is issued. To reset the repetitions use `reset_repetitions()`.
 
 ```python
 led_pin = Pin(25,Pin.OUT)
