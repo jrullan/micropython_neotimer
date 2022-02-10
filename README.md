@@ -23,18 +23,20 @@ to use in your program. It is based on the neotimer library I developed
 for Arduino and Propeller 2 in Spin 2.
 
 
-## Explanation
+## Why use Neotimer?
 
-When you use a time.sleep() function in a program,
+In the microcontroller world, delays are used extensively to control different aspects of timing control. 
+This is usually implemented using functions such as time.sleep(). But when you call `time.sleep()` ,
 the processor stops everything it is doing until this delay is completed.
 That is called a blocking delay, because it blocks the processor until it finishes.
  
-There are many times when we don't want this to happen.
+There are many situations where this is undesirable and you need to implement a workaround.
+
 This library provides a way to use time delays without
 blocking the processor, so it can do other things while the timer ends up.
 This is called a non-blocking delay timer.
  
-The timer provides basic functionality to implement different ways of timing in a program.
+Neotimer provides a set of basic functionalities to implement different ways of timing in a program.
 You can use the timer in the following ways:
  
 ### A) Start-Stop-Restart Timer - 
