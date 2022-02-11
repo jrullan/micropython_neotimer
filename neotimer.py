@@ -193,7 +193,7 @@ class Neotimer:
                 self.start()
             return True if self.finished() else False
         
-        self.stop()
+        self.reset()  #<--- Stops and resets the timer.
         return False
     
     # Returns true when timer is done and resets it
