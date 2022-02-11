@@ -112,7 +112,24 @@ while True:
         print(presses)
 ```
 
-### E) Waiting
+### E) Hold signal
+
+Neotimer can be used to detect a signal hold. For example holding down a button for 3 seconds:
+
+```python
+BUTTON_A = Pin(20,Pin.IN)
+led = Pin(25,Pin.OUT)
+
+myTimer = Neotimer(3000) #<---- 3 seconds hold time
+
+while True:
+    if myTimer.hold_signal(BUTTON_A.value()):
+        led.on()
+    else:
+        led.off()
+```
+
+### F) Waiting
 
 The following example will turn on the led for 1000ms each time the button is pressed
 
