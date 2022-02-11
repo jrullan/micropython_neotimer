@@ -106,6 +106,23 @@
 #                     led.off()
 # 
 #
+#         F) Hold Signal - If button is pressed for 1 second turn on the LED
+#            ------------------------------------------------------------------------------------
+#
+#             from neotimer import *
+#             from machine import Pin
+# 
+#             BUTTON_A = Pin(20,Pin.IN)
+# 
+#             led = Pin(25,Pin.OUT)
+# 
+#             myTimer = Neotimer(1000)
+# 
+#             while True:
+#                 if myTimer.hold_signal(BUTTON_A.value()):
+#                     led.on()
+#                 else:
+#                     led.off()
 #
 #
 # Author: Jose Rullan
@@ -168,6 +185,16 @@ class Neotimer:
             return True
         else:
             return False
+    
+    # Returns true if a signal is on for duration
+    def hold_signal(self,signal):
+        if signal:
+            if not self.started:
+                self.start()
+            return True if self.finished() else False
+        
+        self.stop()
+        return False
     
     # Returns true when timer is done and resets it
     def repeat_execution(self):
